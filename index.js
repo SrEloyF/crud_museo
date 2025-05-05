@@ -17,9 +17,19 @@ const PORT = process.env.PORT || 3000;
 const env = process.env.NODE_ENV || 'development';
 const config = require('./config/config.json')[env];
 const sequelize = new Sequelize(
-  config.database, config.username, config.password,
-  { host: config.host, port: config.port, dialect: config.dialect, dialectOptions: config.dialectOptions }
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: true
+    }
+  }
 );
+
 sequelize.authenticate()
   .then(() => console.log(' Sequelize conectado'))
   .catch(err => console.error('Error Sequelize:', err));
