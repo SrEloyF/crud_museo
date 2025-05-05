@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Obras de <%= museo.nombre %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container py-5">
+    <h1>Obras en el museo “<%= museo.nombre %>”</h1>
+    <div class="mb-3">
+      <a href="/museos" class="btn btn-secondary">← Volver a Museos</a>
+    </div>
+
+    <% if (obras.length) { %>
+      <table class="table table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th><th>Título</th><th>Artista</th><th>Año</th><th>Imagen</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% obras.forEach(o => { %>
+            <tr>
+              <td><%= o.id %></td>
+              <td><%= o.titulo %></td>
+              <td><%= o.artista %></td>
+              <td><%= o.anio %></td>
+              <td>
+                <img src="/uploads/<%= o.imagen %>" width="80" alt="<%= o.titulo %>">
+              </td>
+              <td class="d-flex gap-1">
+                <a href="/obras/<%= o.id %>/edit" class="btn btn-sm btn-warning">Editar</a>
+                <form action="/obras/<%= o.id %>?_method=DELETE" method="POST" class="d-inline">
+                  <button class="btn btn-sm btn-danger">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p class="text-muted">Este museo no tiene obras asociadas.</p>
+    <% } %>
+  </div>
+</body>
+</html>
